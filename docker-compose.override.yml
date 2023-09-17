@@ -4,7 +4,7 @@ services:
     image: bitnami/git:latest
     working_dir: /temp
     environment:
-      - VOLUME_LOCATION=/netbox-config-files
+      VOLUME_LOCATION: /netbox-config-files
     command: >
       bash -c "
         find /temp -mindepth 1 -delete && 
