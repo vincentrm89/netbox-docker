@@ -1,5 +1,20 @@
 version: "3.4"
 services:
+  git-checkout:
+    image: bitnami/git:latest
+    working_dir: /temp
+    environment:
+      - VOLUME_LOCATION=/netbox-config-files
+    command: >
+      bash -c "
+        find /temp -mindepth 1 -delete && 
+        find /${VOLUME_LOCATION} -mindepth 1 -delete &&
+        git clone https://github.com/vincentrm89/netbox-docker.git &&
+        cp -R ./netbox-docker/configuration/. /${VOLUME_LOCATION}
+      "
+    volumes:
+      - netbox-config-files:/${VOLUME_LOCATION}
+
   netbox:
     ports:
       - 8010:8080
@@ -8,3 +23,8 @@ services:
       start_period: 300s
     environment:
       SKIP_SUPERUSER: "false"
+    volumes:
+      - netbox-config-files:/etc/netbox/config:z,ro
+      - netbox-media-files:/opt/netbox/netbox/media:rw
+      - netbox-reports-files:/opt/netbox/netbox/reports:rw
+      - netbox-scripts-files:/opt/netbox/netbox/scripts:rw
