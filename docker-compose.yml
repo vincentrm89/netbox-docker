@@ -1,20 +1,5 @@
 version: "3.4"
 services:
-  git-checkout:
-    image: bitnami/git:latest
-    working_dir: /temp
-    environment:
-      VOLUME_LOCATION: /netbox-config-files
-    command: >
-      bash -c "
-        find /temp -mindepth 1 -delete && 
-        find /netbox-config-files -mindepth 1 -delete &&
-        git clone https://github.com/vincentrm89/netbox-docker.git &&
-        cp -R ./netbox-docker/configuration/. /netbox-config-files
-      "
-    volumes:
-      - netbox-config-files:/netbox-config-files
-
   netbox: &netbox
     image: docker.io/netboxcommunity/netbox:${VERSION-v3.6-2.7.0}
     depends_on:
