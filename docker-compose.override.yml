@@ -2,7 +2,7 @@ version: "3.4"
 services:
   netbox:
     ports:
-      - 8000:8080
+      - 8010:8080
     healthcheck:
       retries: 15
       start_period: 300s
